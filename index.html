@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>God of Anime Black - Ultimate Hub</title>
+    
+    <!-- کتابخانه ها -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- فایربیس -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&family=Lalezar&family=Fira+Code:wght@400;700&display=swap');
@@ -62,7 +69,6 @@
         
         .wl-grid-dense { display: flex; flex-wrap: wrap; gap: 12px; padding: 5px; }
         
-        /* INSTAGRAM STORY RING EFFECT */
         .wl-circle-item { position: relative; width: 68px; height: 68px; border-radius: 50%; cursor: pointer; padding: 3px; background: transparent; transition: 0.3s; }
         .wl-circle-item img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg); transition: 0.3s; }
         .wl-circle-item.has-story { background: linear-gradient(45deg, #f59e0b, #ef4444, #8b5cf6); animation: storyPulse 2s infinite; }
@@ -90,7 +96,6 @@
         .day-tab { padding: 8px 20px; background: var(--card); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; white-space: nowrap; font-weight: bold; transition: 0.3s; }
         .day-tab.active { background: var(--primary); color: white; box-shadow: 0 0 15px rgba(139, 92, 246, 0.4); }
 
-        /* --- 3D Schedule Cards (TRADING CARD DESIGN) --- */
         .mySwiper-sched { width: 100%; padding: 20px 0 50px 0; }
         .sched-slide { width: 185px; height: 310px; border-radius: 15px; background: var(--card); border: 1px solid var(--glass-border); overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.6); cursor: pointer; }
         
@@ -115,7 +120,6 @@
         .neon-box span { font-family: 'Fira Code', monospace; font-size: 0.9rem; font-weight: bold; color: #0ff; text-shadow: 0 0 8px #0ff; line-height: 1; margin-bottom: 2px; }
         .neon-box small { font-size: 0.55rem; color: #aaa; font-family: var(--font); line-height: 1; }
 
-        /* --- Cinematic Hero Banner --- */
         .mySwiper-rec { width: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.6); border: 1px solid var(--glass-border); margin-bottom: 20px; }
         .hero-slide { width: 100%; min-height: 280px; position: relative; background: #000; display: flex; align-items: center; }
         .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: top center; filter: blur(12px) brightness(0.3); z-index: 0; transform: scale(1.1); }
@@ -135,7 +139,6 @@
         .swiper-pagination-bullet { background: #fff; opacity: 0.5; }
         .swiper-pagination-bullet-active { background: var(--primary); opacity: 1; box-shadow: 0 0 10px var(--primary); }
 
-        /* Translation Rail (2 COLUMNS UPDATE) */
         .rail-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .trans-compact-card { display: flex; align-items: center; background: rgba(0,0,0,0.4); border: 1px dashed var(--glass-border); border-radius: 12px; padding: 8px; gap: 10px; transition: 0.3s; cursor: pointer; }
         .trans-compact-card:hover { border-color: var(--primary); background: rgba(245, 158, 11, 0.1); transform: scale(1.02); }
@@ -147,7 +150,6 @@
         .team-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2); }
         .team-avatar { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); margin: 0 auto 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
 
-        /* --- Media Hub & 7 Tabs Styling --- */
         .season-neo-box { background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); border: 1px solid rgba(0, 255, 255, 0.5); box-shadow: 0 0 12px rgba(0, 255, 255, 0.2); color: #0ff; outline: none; border-radius: 8px; padding: 5px 10px; cursor: pointer; font-family: inherit; font-size: 0.85rem; font-weight: bold; text-align: center; direction: rtl; transition: 0.3s; }
         .season-neo-box:hover { box-shadow: 0 0 15px rgba(0, 255, 255, 0.4); border-color: #0ff; }
         .season-neo-box option { background: #111; color: #0ff; }
@@ -220,7 +222,7 @@
         .drawer { position: fixed; top: 0; width: 350px; max-width: 100vw; height: 100vh; height: 100dvh; background: rgba(9, 9, 11, 0.98); backdrop-filter: blur(20px); z-index: 1040; padding: 20px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
         #settings-drawer { right: -400px; border-left: 2px solid var(--primary); }
         #settings-drawer.open { right: 0; }
-        #admin-drawer { right: -400px; border-left: 2px solid var(--danger); }
+        #admin-drawer { right: -400px; border-left: 2px solid var(--primary); }
         #admin-drawer.open { right: 0; }
 
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1030; display: none; backdrop-filter: blur(3px); }
@@ -282,18 +284,22 @@
 <!-- ADMIN DRAWER -->
 <div class="drawer" id="admin-drawer">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h2 style="color:var(--danger)"><i class="fas fa-user-shield"></i> پنل مدیریت</h2>
+        <h2 style="color:var(--primary)"><i class="fas fa-user-shield"></i> پنل مدیریت</h2>
         <i class="fas fa-times btn-icon" onclick="closeAllDrawers()"></i>
     </div>
     <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px;">
         <button class="admin-btn" style="margin:0; background:#8b5cf6" onclick="admTab('general')"><i class="fas fa-cogs"></i> تنظیمات عمومی</button>
         <button class="admin-btn" style="margin:0; background:var(--primary)" onclick="admTab('sched')"><i class="fas fa-calendar"></i> پخش هفتگی</button>
-        <button class="admin-btn" style="margin:0; background:var(--info)" onclick="admTab('trans')"><i class="fas fa-language"></i> درحال ترجمه (اتوماتیک)</button>
-        <button class="admin-btn" style="margin:0; background:var(--warning)" onclick="admTab('rec')"><i class="fas fa-star"></i> پیشنهاد روزانه (سینمایی)</button>
-        <button class="admin-btn" style="margin:0; background:var(--success)" onclick="admTab('team')"><i class="fas fa-users"></i> تیم مترجمین (پروژه‌ها)</button>
+        <button class="admin-btn" style="margin:0; background:#0ea5e9" onclick="admTab('trans')"><i class="fas fa-language"></i> درحال ترجمه (اتوماتیک)</button>
+        <button class="admin-btn" style="margin:0; background:#eab308" onclick="admTab('rec')"><i class="fas fa-star"></i> پیشنهاد روزانه (سینمایی)</button>
+        <button class="admin-btn" style="margin:0; background:#10b981" onclick="admTab('team')"><i class="fas fa-users"></i> تیم مترجمین (پروژه‌ها)</button>
     </div>
     <div id="admin-content" class="admin-form" style="border-top:1px dashed #444; padding-top:15px;"></div>
-    <button onclick="exportDB()" class="admin-btn" style="background:#ef4444; margin-top:20px;"><i class="fas fa-save"></i> دانلود بکاپ دیتابیس</button>
+    
+    <!-- دکمه های جدید سیستم آنلاین -->
+    <button onclick="syncToCloud()" class="admin-btn" style="background:#10b981; margin-top:20px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);"><i class="fas fa-cloud-upload-alt"></i> ذخیره در سرور آنلاین (فایربیس)</button>
+    <button onclick="exportDB()" class="admin-btn" style="background:#ef4444; margin-top:10px;"><i class="fas fa-save"></i> دانلود بکاپ آفلاین</button>
+    <button onclick="firebase.auth().signOut().then(()=>{location.reload()})" class="admin-btn" style="background:transparent; border:1px solid #444; margin-top:10px;"><i class="fas fa-sign-out-alt"></i> خروج از مدیریت</button>
 </div>
 
 <!-- MAIN UI -->
@@ -309,9 +315,8 @@
         <div id="search-results" class="search-results hidden"></div>
     </div>
 
-    <!-- Watchlist Redesigned -->
     <div id="watchlist-wrap" class="hidden">
-        <div class="section-title"><i class="fas fa-heart text-danger"></i> <span>لیست پیگیری من</span></div>
+        <div class="section-title"><i class="fas fa-heart" style="color:#ef4444"></i> <span>لیست پیگیری من</span></div>
         <div class="wl-tabs-container">
             <div class="wl-tab-btn active" data-wltab="all" onclick="setWlTab('all')">همه <i class="fas fa-layer-group"></i></div>
             <div class="wl-tab-btn" data-wltab="watching" onclick="setWlTab('watching')">درحال دیدن <i class="fas fa-play-circle"></i></div>
@@ -322,7 +327,6 @@
     </div>
 
     <div class="section-title"><i class="fas fa-star"></i> <span>پیشنهاد روزانه</span></div>
-    <!-- Cinematic Hero Slider -->
     <div class="swiper mySwiper-rec">
         <div class="swiper-wrapper" id="rec-list"></div>
         <div class="swiper-pagination"></div>
@@ -330,7 +334,6 @@
 
     <div class="section-title"><i class="fas fa-calendar-alt"></i> <span>پخش هفتگی</span></div>
     <div class="days-nav" id="days-nav"></div>
-    <!-- 3D Cards Slider for Schedule -->
     <div class="swiper mySwiper-sched">
         <div class="swiper-wrapper" id="schedule-list"></div>
     </div>
@@ -353,43 +356,147 @@
 </div>
 
 <script>
+    // ====================================================
+    // بخش 1: پیکربندی دیتابیس آنلاین (Firebase)
+    // ====================================================
+    const firebaseConfig = {
+        apiKey: "AIzaSyAeD2Pc5q_LgDeWDEC7JCQeDEAzFlZRhiQ",
+        authDomain: "anime-black-cefc0.firebaseapp.com",
+        projectId: "anime-black-cefc0",
+        storageBucket: "anime-black-cefc0.firebasestorage.app",
+        messagingSenderId: "721270287867",
+        appId: "1:721270287867:web:87329ad1e081c8ca6fef5e"
+    };
+    
+    if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+    const cloudDb = firebase.firestore();
+    const cloudAuth = firebase.auth();
+
+    // ====================================================
+    // سیستم هسته و ابزارها
+    // ====================================================
     window.Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 2000, background: 'var(--card)', color: 'var(--text)' });
-    window.lastAdminScroll = 0; // State for Scroll Keeper
+    window.lastAdminScroll = 0; 
     const colors = ['#8b5cf6', '#ef4444', '#f59e0b', '#10b981', '#0ea5e9', '#ec4899', '#14b8a6', '#f43f5e', '#64748b', '#f97316', '#84cc16', '#6366f1', '#d946ef', '#115e59', '#eab308'];
     const daysFa = ["یک‌شنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه", "شنبه"];
     let activeDay = new Date().getDay();
     let currentWlTab = 'all';
-    
-    // Swiper instances
     let schedSwiper = null;
     let recSwiper = null;
-    let editingSchedIdx = -1; // Admin Edit Tracker
+    let editingSchedIdx = -1;
 
+    // دریافت کش آفلاین یا خالی
     function getSafeDB() {
         if (window.PRELOADED_DB) return window.PRELOADED_DB;
-        const keys = ['animeblack_db', 'godofanime_db', 'anime_db', 'vip_db_final'];
+        const keys = ['animeblack_db'];
         for(let k of keys) { let data = localStorage.getItem(k); if(data) { try { let p = JSON.parse(data); if(p.schedule || p.team) return p; } catch(e) {} } }
         return { schedule: [], translation: [], recommendations: [], team: [], settings: { bgUrl: '' } };
     }
     
-    let db = getSafeDB();
-    if(!db.team) db.team = []; if(!db.schedule) db.schedule = []; if(!db.translation) db.translation = []; if(!db.recommendations) db.recommendations = []; if(!db.settings) db.settings = { bgUrl: '' };
+    window.db = getSafeDB();
+    function fixDBStructure() {
+        if(!window.db.team) window.db.team = []; if(!window.db.schedule) window.db.schedule = []; if(!window.db.translation) window.db.translation = []; if(!window.db.recommendations) window.db.recommendations = []; if(!window.db.settings) window.db.settings = { bgUrl: '' };
+        window.db.team.forEach(t => {
+            if(t.projects) {
+                t.projects = t.projects.map(p => {
+                    if(!p.id) p.id = Date.now() + Math.floor(Math.random()*10000);
+                    if(!p.nameEn) p.nameEn = p.name || ''; if(!p.desc) p.desc = 'بدون خلاصه.';
+                    if(!p.genres) p.genres = []; if(!p.aliases) p.aliases = [];
+                    if(!p.seasons) p.seasons = { 1: { type: 'فصل', epCount: p.epCount || 12, year: p.year || '2024', duration: p.duration || '24 دقیقه', img: p.img || 'https://via.placeholder.com/150', status: p.status || 'airing', subs: {}, files: {} } };
+                    if(!p.adminActiveS) p.adminActiveS = 1;
+                    if(!p.cultivation) p.cultivation = []; if(!p.characters) p.characters = []; if(!p.news) p.news = []; if(!p.comments) p.comments = []; 
+                    return p;
+                });
+            }
+        });
+    }
+    fixDBStructure();
 
-    db.team.forEach(t => {
-        if(t.projects) {
-            t.projects = t.projects.map(p => {
-                if(!p.id) p.id = Date.now() + Math.floor(Math.random()*10000);
-                if(!p.nameEn) p.nameEn = p.name || ''; if(!p.desc) p.desc = 'بدون خلاصه.';
-                if(!p.genres) p.genres = []; if(!p.aliases) p.aliases = [];
-                if(!p.seasons) p.seasons = { 1: { type: 'فصل', epCount: p.epCount || 12, year: p.year || '2024', duration: p.duration || '24 دقیقه', img: p.img || 'https://via.placeholder.com/150', status: p.status || 'airing', subs: p.subs || {}, files: p.files || {} } };
-                if(!p.adminActiveS) p.adminActiveS = 1;
-                if(!p.cultivation) p.cultivation = []; if(!p.characters) p.characters = []; if(!p.news) p.news = [];
-                if(!p.comments) p.comments = []; 
-                return p;
-            });
-        }
+    // ====================================================
+    // دریافت اطلاعات آنلاین از فایربیس (لود اولیه)
+    // ====================================================
+    function loadFromCloud() {
+    cloudDb.collection("database").doc("main").get().then(doc => {
+    if(doc.exists) {
+    window.db = doc.data();
+    fixDBStructure();
+    localStorage.setItem('animeblack_db', JSON.stringify(window.db));
+    renderAll(); 
+    } else {
+    alert("ارور: اطلاعاتی در دیتابیس آنلاین پیدا نشد!");
+    }
+    }).catch(err => {
+    alert("خطا در اتصال به سرور:\n" + err.message + "\n\nاحتمالاً فیلترشکن خاموش است یا مشکل اینترنت وجود دارد.");
     });
+    }
+    loadFromCloud(); // وقتی سایت باز میشه چک میکنه آپدیتی هست یا نه
 
+    // ====================================================
+    // ذخیره در سرور آنلاین (با دکمه داخل پنل مدیریت)
+    // ====================================================
+    window.syncToCloud = function() {
+        if(!cloudAuth.currentUser) {
+            return Toast.fire({icon: 'error', title: 'دسترسی غیرمجاز. لطفا دوباره وارد شوید.'});
+        }
+        Swal.fire({
+            title: 'در حال آپلود...',
+            text: 'لطفا صبر کنید تا اطلاعات روی سرور قرار گیرد',
+            allowOutsideClick: false,
+            didOpen: () => { Swal.showLoading(); }
+        });
+        
+        let pureDb = JSON.parse(JSON.stringify(window.db));
+        cloudDb.collection("database").doc("main").set(pureDb).then(() => {
+            Swal.fire({icon: 'success', title: 'موفقیت‌آمیز', text: 'سایت شما برای تمام کاربران آپدیت شد!', background: 'var(--card)', color: 'var(--text)'});
+        }).catch(err => {
+            Swal.fire('خطا', err.message, 'error');
+        });
+    }
+
+    // ذخیره موقت در گوشی مدیر
+    function saveDB() { localStorage.setItem('animeblack_db', JSON.stringify(window.db)); renderAll(); }
+    
+    // ====================================================
+    // سیستم ورود به مدیریت با فایربیس
+    // ====================================================
+    window.authAdmin = function() { 
+        if(cloudAuth.currentUser) {
+            document.getElementById('admin-drawer').classList.add('open');
+            document.getElementById('overlay').classList.add('open');
+            window.admTab('sched');
+            return;
+        }
+
+        Swal.fire({ 
+            title:'ورود به هسته مدیریت', 
+            html: `
+                <input type="email" id="login-email" class="swal2-input" placeholder="ایمیل مدیریت" dir="ltr">
+                <input type="password" id="login-pass" class="swal2-input" placeholder="رمز عبور" dir="ltr">
+            `,
+            background:'var(--card)', 
+            color:'var(--text)', 
+            confirmButtonText: 'ورود',
+            confirmButtonColor:'var(--primary)',
+            showCancelButton: true,
+            cancelButtonText: 'لغو',
+            preConfirm: () => {
+                const email = document.getElementById('login-email').value;
+                const pass = document.getElementById('login-pass').value;
+                return cloudAuth.signInWithEmailAndPassword(email, pass).catch(error => {
+                    Swal.showValidationMessage(`ایمیل یا رمز عبور اشتباه است`);
+                });
+            }
+        }).then(r => { 
+            if(r.isConfirmed) { 
+                document.getElementById('admin-drawer').classList.add('open'); 
+                document.getElementById('overlay').classList.add('open'); 
+                window.admTab('sched'); 
+                Toast.fire({icon:'success', title:'به سرور متصل شدید'});
+            } 
+        }); 
+    }
+
+    // تنظیمات کاربری
     let prefs = null; try { prefs = JSON.parse(localStorage.getItem('animeblack_prefs')); } catch(e) {}
     if(!prefs) prefs = { isLight: false, lang: 'fa', fx: 'none', primary: '#f59e0b', font: 'Lalezar' };
     
@@ -398,7 +505,6 @@
     let watchedHistory = {};
     Object.keys(watchedHistoryRaw).forEach(k => { watchedHistory[k] = watchedHistoryRaw[k].map(ep => { if(typeof ep === 'number' || !String(ep).includes('_')) return `1_${ep}`; return ep; }); });
 
-    function saveDB() { localStorage.setItem('animeblack_db', JSON.stringify(db)); renderAll(); }
     function savePrefs() { localStorage.setItem('animeblack_prefs', JSON.stringify(prefs)); applyPrefs(); }
     function setPref(key, val) { prefs[key] = val; savePrefs(); }
     function applyPrefs() { 
@@ -441,14 +547,14 @@
 
     window.openStory = function(tId, pId, msg) {
         if(msg) Toast.fire({icon: 'success', title: msg});
-        let p = null; db.team.forEach(t => { let f = t.projects.find(x => x.id === pId); if(f) p = f; });
+        let p = null; window.db.team.forEach(t => { let f = t.projects.find(x => x.id === pId); if(f) p = f; });
         if(p) { let lsData = JSON.parse(localStorage.getItem('animeblack_seen_scores')) || {}; lsData[pId] = getProjectScore(p); localStorage.setItem('animeblack_seen_scores', JSON.stringify(lsData)); }
         renderWatchlist(); showMediaHub(tId, pId);
     }
 
     window.openLinkedProject = function(title) {
         let foundT = null, foundP = null;
-        db.team.forEach(t => t.projects.forEach(p => { if(p.name === title || (p.aliases && p.aliases.includes(title))) { foundT = t.id; foundP = p.id; } }));
+        window.db.team.forEach(t => t.projects.forEach(p => { if(p.name === title || (p.aliases && p.aliases.includes(title))) { foundT = t.id; foundP = p.id; } }));
         if(foundP) showMediaHub(foundT, foundP); else Toast.fire({icon: 'error', title: 'این سریال هنوز برای دانلود قرار نگرفته است.'});
     }
 
@@ -456,7 +562,7 @@
         const resBox = document.getElementById('search-results');
         if(!q.trim()) { resBox.classList.add('hidden'); return; }
         let results = []; const query = q.toLowerCase().trim();
-        db.team.forEach(t => { t.projects.forEach(p => { 
+        window.db.team.forEach(t => { t.projects.forEach(p => { 
             const n1 = (p.name||'').toLowerCase(); const n2 = (p.nameEn||'').toLowerCase(); 
             let match = n1.includes(query) || n2.includes(query); 
             if(!match && p.aliases) { match = p.aliases.some(a => a.toLowerCase().includes(query)); } 
@@ -471,7 +577,7 @@
     document.addEventListener('click', (e) => { if(!e.target.closest('.search-box')) { document.getElementById('search-results').classList.add('hidden'); } });
 
     window.showGenreResults = function(genre) {
-        let results = []; db.team.forEach(t => { t.projects.forEach(p => { if(p.genres && p.genres.includes(genre)) results.push({t, p}); }); });
+        let results = []; window.db.team.forEach(t => { t.projects.forEach(p => { if(p.genres && p.genres.includes(genre)) results.push({t, p}); }); });
         let html = `<div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; max-height:60vh; overflow-y:auto; padding: 10px;">`;
         if(results.length === 0) html += `<div style="color:var(--text-muted);">اثری در این ژانر یافت نشد.</div>`;
         results.forEach(r => { let s1 = r.p.seasons[1] || Object.values(r.p.seasons)[0]; html += `<div style="width:105px; cursor:pointer; transition:0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="showMediaHub(${r.t.id}, ${r.p.id})"><img src="${s1.img}" style="width:100%; height:145px; border-radius:10px; object-fit:cover; border:1px solid var(--glass-border); box-shadow:0 5px 15px rgba(0,0,0,0.4);"><div style="font-size:0.75rem; font-weight:bold; text-align:center; margin-top:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text);">${r.p.name}</div></div>`; });
@@ -498,7 +604,7 @@
             filtered.forEach(w => {
                 let isStory = false; let storyMsg = 'بروزرسانی جدید!'; let action = '';
                 if (w.type === 'proj' && w.pId) {
-                    let p = null; db.team.forEach(t => { let f = t.projects.find(x => x.id === w.pId); if(f) p = f; });
+                    let p = null; window.db.team.forEach(t => { let f = t.projects.find(x => x.id === w.pId); if(f) p = f; });
                     if(p) { let score = getProjectScore(p); let lastScore = lsData[w.pId] || 0; if(score > lastScore) { isStory = true; storyMsg = lastScore === 0 ? "به لیست آپدیت‌ها اضافه شد!" : "قسمت یا خبر جدید منتشر شد!"; } }
                     action = `onclick="openStory(${w.tId}, ${w.pId}, '${isStory ? storyMsg : ''}')"`;
                 } else { action = `onclick="openLinkedProject('${w.title.replace(/'/g,"\\'")}')"`; }
@@ -516,12 +622,12 @@
         }
     }
     
-    function applyDynamicBg() { if(db.settings && db.settings.bgUrl) { document.getElementById('dynamic-bg').style.backgroundImage = `url('${db.settings.bgUrl}')`; } else { document.getElementById('dynamic-bg').style.backgroundImage = 'none'; } }
+    function applyDynamicBg() { if(window.db.settings && window.db.settings.bgUrl) { document.getElementById('dynamic-bg').style.backgroundImage = `url('${window.db.settings.bgUrl}')`; } else { document.getElementById('dynamic-bg').style.backgroundImage = 'none'; } }
     function getNextAiring(targetDay, timeStr) { const now = new Date(); const [hours, mins] = timeStr.split(':').map(Number); let next = new Date(now); next.setHours(hours, mins, 0, 0); let dayDiff = targetDay - now.getDay(); if (dayDiff < 0 || (dayDiff === 0 && now.getTime() > next.getTime())) { dayDiff += 7; } next.setDate(next.getDate() + dayDiff); return next.getTime(); }
     
     function checkScheduleAutoUpdate() {
         let changed = false; const now = Date.now();
-        db.schedule.forEach(i => {
+        window.db.schedule.forEach(i => {
             if(!i.season) i.season = 1; if(!i.ep) i.ep = 1;
             if(!i.isPaused) {
                 let nextTime = getNextAiring(parseInt(i.day), i.time);
@@ -529,9 +635,9 @@
                     let airedEp = parseInt(i.ep); i.ep = airedEp + 1; i.lastAirMs = nextTime; changed = true; 
                     
                     let foundT = null, foundP = null, tName = 'نامشخص';
-                    db.team.forEach(t => t.projects.forEach(p => { if(p.name === i.title || (p.aliases && p.aliases.includes(i.title))) { foundT = t.id; foundP = p.id; tName = t.name; } }));
+                    window.db.team.forEach(t => t.projects.forEach(p => { if(p.name === i.title || (p.aliases && p.aliases.includes(i.title))) { foundT = t.id; foundP = p.id; tName = t.name; } }));
                     
-                    if(foundP) { let inQ = db.translation.some(tr => tr.pId === foundP && parseInt(tr.ep) === airedEp); if(!inQ) { db.translation.push({ id: Date.now() + Math.floor(Math.random()*1000), img: i.img, title: i.title, ep: airedEp, translator: tName, tId: foundT, pId: foundP }); } }
+                    if(foundP) { let inQ = window.db.translation.some(tr => tr.pId === foundP && parseInt(tr.ep) === airedEp); if(!inQ) { window.db.translation.push({ id: Date.now() + Math.floor(Math.random()*1000), img: i.img, title: i.title, ep: airedEp, translator: tName, tId: foundT, pId: foundP }); } }
                 } else if(!i.lastAirMs) { i.lastAirMs = nextTime; changed = true; }
             }
         });
@@ -542,7 +648,7 @@
     
     function renderSchedule() { 
         const list = document.getElementById('schedule-list'); list.innerHTML = ''; 
-        const items = db.schedule.filter(i => parseInt(i.day) === activeDay); 
+        const items = window.db.schedule.filter(i => parseInt(i.day) === activeDay); 
         
         if(!items.length) { 
             document.querySelector('.mySwiper-sched').style.display = 'none';
@@ -565,25 +671,25 @@
 
     function renderTranslation() { 
         const list = document.getElementById('trans-list'); list.innerHTML = ''; 
-        if(!db.translation.length) { list.innerHTML = `<p style="opacity:0.5; font-size:0.9rem; padding:10px; grid-column:1/-1; text-align:center;">کاري درحال ترجمه نيست.</p>`; return;} 
-        db.translation.forEach(i => { list.innerHTML += `<div class="trans-compact-card" onclick="openLinkedProject('${i.title.replace(/'/g,"\\'")}')"><img src="${i.img}"><div class="trans-info"><div style="font-size:0.85rem; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:6px; color:var(--text);">${i.title}</div><div style="display:flex; justify-content:space-between; align-items:center;"><span style="background:rgba(245, 158, 11, 0.2); color:#fcd34d; font-size:0.7rem; padding:2px 8px; border-radius:6px; font-weight:bold; border:1px solid rgba(245,158,11,0.4)">قسمت ${i.ep}</span><span style="font-size:0.7rem; color:#0ea5e9; font-weight:bold;"><i class="fas fa-pen-nib"></i> ${i.translator}</span></div></div></div>`; }); 
+        if(!window.db.translation.length) { list.innerHTML = `<p style="opacity:0.5; font-size:0.9rem; padding:10px; grid-column:1/-1; text-align:center;">کاري درحال ترجمه نيست.</p>`; return;} 
+        window.db.translation.forEach(i => { list.innerHTML += `<div class="trans-compact-card" onclick="openLinkedProject('${i.title.replace(/'/g,"\\'")}')"><img src="${i.img}"><div class="trans-info"><div style="font-size:0.85rem; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:6px; color:var(--text);">${i.title}</div><div style="display:flex; justify-content:space-between; align-items:center;"><span style="background:rgba(245, 158, 11, 0.2); color:#fcd34d; font-size:0.7rem; padding:2px 8px; border-radius:6px; font-weight:bold; border:1px solid rgba(245,158,11,0.4)">قسمت ${i.ep}</span><span style="font-size:0.7rem; color:#0ea5e9; font-weight:bold;"><i class="fas fa-pen-nib"></i> ${i.translator}</span></div></div></div>`; }); 
     }
 
     function renderRecs() { 
         const list = document.getElementById('rec-list'); list.innerHTML = ''; 
         const swiperEl = document.querySelector('.mySwiper-rec'); 
-        if(!db.recommendations.length) { if(swiperEl) swiperEl.style.display = 'none'; return; } else { if(swiperEl) swiperEl.style.display = 'block'; } 
+        if(!window.db.recommendations.length) { if(swiperEl) swiperEl.style.display = 'none'; return; } else { if(swiperEl) swiperEl.style.display = 'block'; } 
         
-        db.recommendations.forEach(r => { let isFav = watchlist.some(x => x.id === 'rec_'+r.id); list.innerHTML += `<div class="swiper-slide hero-slide"><div class="hero-bg" style="background-image: url('${r.img}');"></div><div class="hero-content"><img src="${r.img}" class="hero-poster"><div class="hero-details"><div class="hero-title">${r.title}</div><div class="hero-meta"><span><i class="fas fa-list-ol text-primary"></i> ${r.eps} قسمت</span><span><i class="far fa-clock text-primary"></i> ${r.duration}</span><span><i class="far fa-calendar text-primary"></i> ${r.year}</span></div><div class="hero-desc">${r.desc}</div><div style="display:flex; gap:10px;"><button class="hero-btn" onclick="openLinkedProject('${r.title.replace(/'/g,"\\'")}')"><i class="fas fa-play"></i> تماشا و دانلود</button><button class="btn-icon" style="background:rgba(0,0,0,0.5); width:auto; padding:0 15px; border-color:${isFav?'#ef4444':'rgba(255,255,255,0.2)'}; color:${isFav?'#ef4444':'white'};" onclick="toggleWatchlist('rec_${r.id}', '${r.title.replace(/'/g,"\\'")}', '${r.img}')"><i class="fas fa-heart"></i></button></div></div></div></div>`; }); 
+        window.db.recommendations.forEach(r => { let isFav = watchlist.some(x => x.id === 'rec_'+r.id); list.innerHTML += `<div class="swiper-slide hero-slide"><div class="hero-bg" style="background-image: url('${r.img}');"></div><div class="hero-content"><img src="${r.img}" class="hero-poster"><div class="hero-details"><div class="hero-title">${r.title}</div><div class="hero-meta"><span><i class="fas fa-list-ol text-primary"></i> ${r.eps} قسمت</span><span><i class="far fa-clock text-primary"></i> ${r.duration}</span><span><i class="far fa-calendar text-primary"></i> ${r.year}</span></div><div class="hero-desc">${r.desc}</div><div style="display:flex; gap:10px;"><button class="hero-btn" onclick="openLinkedProject('${r.title.replace(/'/g,"\\'")}')"><i class="fas fa-play"></i> تماشا و دانلود</button><button class="btn-icon" style="background:rgba(0,0,0,0.5); width:auto; padding:0 15px; border-color:${isFav?'#ef4444':'rgba(255,255,255,0.2)'}; color:${isFav?'#ef4444':'white'};" onclick="toggleWatchlist('rec_${r.id}', '${r.title.replace(/'/g,"\\'")}', '${r.img}')"><i class="fas fa-heart"></i></button></div></div></div></div>`; }); 
         
         if(recSwiper) recSwiper.destroy();
         recSwiper = new Swiper(".mySwiper-rec", { effect: "fade", grabCursor: true, autoplay: { delay: 13000, disableOnInteraction: false }, pagination: { el: ".swiper-pagination", clickable: true } });
     }
     
-    function renderTeam() { const list = document.getElementById('team-list'); list.innerHTML = ''; if(!db.team.length) list.innerHTML = `<p style="opacity:0.5; font-size:0.9rem; grid-column:1/-1; text-align:center;">مترجمی ثبت نشده است.</p>`; db.team.forEach(t => { list.innerHTML += `<div class="team-card" onclick="showTranslatorWorks(${t.id})"><img src="${t.avatar}" class="team-avatar"><h4 style="margin-bottom:5px">${t.name}</h4><div style="font-size:0.8rem; color:var(--text-muted)"><i class="fas fa-layer-group"></i> ${t.projects.length} پروژه</div></div>`; }); }
+    function renderTeam() { const list = document.getElementById('team-list'); list.innerHTML = ''; if(!window.db.team.length) list.innerHTML = `<p style="opacity:0.5; font-size:0.9rem; grid-column:1/-1; text-align:center;">مترجمی ثبت نشده است.</p>`; window.db.team.forEach(t => { list.innerHTML += `<div class="team-card" onclick="showTranslatorWorks(${t.id})"><img src="${t.avatar}" class="team-avatar"><h4 style="margin-bottom:5px">${t.name}</h4><div style="font-size:0.8rem; color:var(--text-muted)"><i class="fas fa-layer-group"></i> ${t.projects.length} پروژه</div></div>`; }); }
     
     window.showTranslatorWorks = function(id) {
-        const t = db.team.find(x => x.id === id); if(!t) return;
+        const t = window.db.team.find(x => x.id === id); if(!t) return;
         let html = `<div style="display:flex; flex-direction:column; gap:12px; max-height:60vh; overflow-y:auto; padding:5px; margin-top:15px;">`;
         t.projects.forEach(p => { 
             let s1 = p.seasons[1] || Object.values(p.seasons)[0];
@@ -602,7 +708,7 @@
 
     window.addComment = function(tId, pId) {
         const inp = document.getElementById(`new-cmt-${pId}`); const text = inp.value.trim(); if(!text) return;
-        const p = db.team.find(t=>t.id===tId).projects.find(x=>x.id===pId); if(!p.comments) p.comments = [];
+        const p = window.db.team.find(t=>t.id===tId).projects.find(x=>x.id===pId); if(!p.comments) p.comments = [];
         let dateStr = new Intl.DateTimeFormat('fa-IR').format(new Date()); p.comments.unshift({ user: 'کاربر مهمان', text: text, date: dateStr });
         saveDB(); inp.value = '';
         
@@ -612,13 +718,13 @@
     }
 
     window.showMediaHub = function(tId, pId, activeTab = 'details', activeSId = 1) {
-        const t = db.team.find(x => x.id === tId); const p = t.projects.find(x => x.id === pId); if(!p) return;
+        const t = window.db.team.find(x => x.id === tId); const p = t.projects.find(x => x.id === pId); if(!p) return;
         let pWatched = watchedHistory[p.id] || []; let sData = p.seasons[activeSId] || p.seasons[1];
         
         let seasonOptions = Object.keys(p.seasons).map(s => { let sT = p.seasons[s].type || 'فصل'; let label = sT === 'فصل' ? `فصل ${s}` : `${sT} ${s}`; return `<option value="${s}" ${s == activeSId ? 'selected':''}>${label}</option>`; }).join('');
         let seasonSelectHtml = `<select class="season-neo-box" onchange="showMediaHub(${tId}, ${pId}, '${activeTab}', this.value)">${seasonOptions}</select>`;
 
-        let schedItem = db.schedule.find(s => (s.title === p.name || (p.aliases && p.aliases.includes(s.title))));
+        let schedItem = window.db.schedule.find(s => (s.title === p.name || (p.aliases && p.aliases.includes(s.title))));
         let nextAirMs = schedItem ? getNextAiring(parseInt(schedItem.day), schedItem.time) : 0;
 
         let stHtml = sData.status === 'completed' ? `<span class="status-badge st-completed">پایان یافته</span>` : `<span class="status-badge st-airing">درحال پخش</span>`;
@@ -687,42 +793,36 @@
 
     function renderAll() { applyDynamicBg(); renderWatchlist(); renderDays(); renderSchedule(); renderTranslation(); renderRecs(); renderTeam(); }
 
-    // --- ADMIN PANEL ---
-    window.authAdmin = function() { Swal.fire({ title:'ورود به هسته مدیریت', input:'password', background:'var(--card)', color:'var(--text)', confirmButtonColor:'var(--primary)' }).then(r => { if(r.value === 'mory') { document.getElementById('admin-drawer').classList.add('open'); document.getElementById('overlay').classList.add('open'); window.admTab('sched'); } }); }
-
     window.admTab = function(tab) {
         const c = document.getElementById('admin-content'); c.innerHTML = '';
-        if (tab === 'general') { c.innerHTML = `<h4>تنظیمات عمومی سایت</h4><div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:12px; margin-bottom:15px;"><label style="font-size:0.8rem; color:var(--text-muted);">لینک عکس پس‌زمینه سایت (سینمایی)</label><input id="gen_bg" value="${db.settings.bgUrl || ''}" placeholder="https://..." class="admin-form" style="margin-top:5px; direction:ltr;"><button onclick="saveGeneralSettings()" class="btn btn-success" style="width:100%; padding:10px; border-radius:8px;"><i class="fas fa-save"></i> اعمال پس‌زمینه</button></div>`; } 
+        if (tab === 'general') { c.innerHTML = `<h4>تنظیمات عمومی سایت</h4><div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:12px; margin-bottom:15px;"><label style="font-size:0.8rem; color:var(--text-muted);">لینک عکس پس‌زمینه سایت (سینمایی)</label><input id="gen_bg" value="${window.db.settings.bgUrl || ''}" placeholder="https://..." class="admin-form" style="margin-top:5px; direction:ltr;"><button onclick="saveGeneralSettings()" class="btn btn-success" style="width:100%; padding:10px; border-radius:8px;"><i class="fas fa-save"></i> اعمال پس‌زمینه</button></div>`; } 
         else if(tab === 'sched') { 
             c.innerHTML = `<h4>افزودن / ویرایش پخش هفتگی</h4><input id="s_img" placeholder="لینک پوستر (عمودی)"><input id="s_t" placeholder="نام انیمه"><div style="display:flex; gap:5px;"><input id="s_s" type="number" placeholder="فصل" value="1"><input id="s_e" type="number" placeholder="قسمت بعدی که پخش میشود" value="1"></div><select id="s_d" class="admin-form" style="width:100%; margin-bottom:10px;"><option value="6">شنبه</option><option value="0">یک‌شنبه</option><option value="1">دوشنبه</option><option value="2">سه‌شنبه</option><option value="3">چهارشنبه</option><option value="4">پنج‌شنبه</option><option value="5">جمعه</option></select><input id="s_ti" type="time"><button class="admin-btn" id="btn_add_sched" onclick="saveDBSchedule()">ثبت پخش جدید</button><hr style="border-color:#444; margin:15px 0">`; 
-            db.schedule.forEach((i, idx) => {
+            window.db.schedule.forEach((i, idx) => {
                 let btnText = i.isPaused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
                 c.innerHTML += `<div style="background:rgba(0,0,0,0.3); padding:10px; border-radius:8px; margin-bottom:8px; font-size:0.85rem"><div style="font-weight:bold; color:var(--primary); margin-bottom:5px;">${i.title} (S${i.season}EP${i.ep})</div><div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-size:0.75rem; color:#aaa;">${daysFa[i.day]} ساعت ${i.time}</span><div style="display:flex; gap:5px;"><button onclick="editDBSchedule(${idx})" style="background:var(--info); color:white; border:none; padding:3px 8px; border-radius:4px; cursor:pointer;" title="ویرایش"><i class="fas fa-edit"></i></button><button onclick="toggleSchedPause(${idx})" style="background:var(--warning); border:none; padding:3px 8px; border-radius:4px; font-size:0.7rem; cursor:pointer;" title="توقف/پخش">${btnText}</button><button onclick="delDB('schedule', ${idx})" style="background:var(--danger); color:white; border:none; padding:3px 8px; border-radius:4px; cursor:pointer;" title="حذف"><i class="fas fa-trash"></i></button></div></div></div>`;
             }); 
         } 
         else if (tab === 'trans') { 
-            let projOptions = '<option value="">-- انتخاب از پروژه‌های موجود --</option>'; db.team.forEach(t => t.projects.forEach(p => { projOptions += `<option value="${t.id}|${p.id}">${p.name}</option>`; }));
+            let projOptions = '<option value="">-- انتخاب از پروژه‌های موجود --</option>'; window.db.team.forEach(t => t.projects.forEach(p => { projOptions += `<option value="${t.id}|${p.id}">${p.name}</option>`; }));
             c.innerHTML = `<h4>افزودن درحال ترجمه (اتوماتیک)</h4><div style="background:rgba(245, 158, 11, 0.1); padding:10px; border-radius:8px; margin-bottom:10px; border:1px dashed var(--primary); font-size:0.75rem; color:var(--text-muted); text-align:justify;">با انتخاب پروژه از لیست زیر، وقتی روی دکمه "انجام شد" کلیک کنید، قسمت مربوطه در سایت به عنوان (ترجمه شده) تیک می‌خورد و از لیست انتظار حذف می‌شود.</div><select id="tr_proj" class="admin-form" style="margin-bottom:10px;">${projOptions}</select><div style="display:flex; gap:5px;"><input id="tr_ep" placeholder="قسمت" type="number" style="width:40%"><input id="tr_n" placeholder="نام مترجم" style="width:60%"></div><button class="admin-btn" onclick="addSmartTranslation()">ثبت در لیست انتظار</button><hr style="border-color:#444; margin:15px 0">`; 
-            db.translation.forEach((i, idx) => { let pBadge = (i.tId && i.pId) ? `<i class="fas fa-link text-success" title="لینک شده به دیتابیس"></i>` : ''; c.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:10px; border-radius:8px; margin-bottom:8px; font-size:0.85rem; border-right:3px solid var(--primary)"><div><b>${i.title}</b> ${pBadge} <span style="font-size:0.7rem; opacity:0.7; margin-right:5px;">(قسمت ${i.ep})</span></div><div style="display:flex; gap:5px;"><button onclick="markTransDone(${idx})" style="background:var(--success); color:white; border:none; padding:4px 8px; border-radius:6px; cursor:pointer; font-size:0.7rem;"><i class="fas fa-check"></i> انجام شد</button></div></div>`; }); 
+            window.db.translation.forEach((i, idx) => { let pBadge = (i.tId && i.pId) ? `<i class="fas fa-link text-success" title="لینک شده به دیتابیس"></i>` : ''; c.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:10px; border-radius:8px; margin-bottom:8px; font-size:0.85rem; border-right:3px solid var(--primary)"><div><b>${i.title}</b> ${pBadge} <span style="font-size:0.7rem; opacity:0.7; margin-right:5px;">(قسمت ${i.ep})</span></div><div style="display:flex; gap:5px;"><button onclick="markTransDone(${idx})" style="background:var(--success); color:white; border:none; padding:4px 8px; border-radius:6px; cursor:pointer; font-size:0.7rem;"><i class="fas fa-check"></i> انجام شد</button></div></div>`; }); 
         } 
-        else if (tab === 'rec') { c.innerHTML = `<h4>افزودن پیشنهاد روزانه (بنر سینمایی)</h4><input id="r_img" placeholder="لینک عکس با کیفیت (افقی/پوستر)"><input id="r_t" placeholder="نام انیمه"><textarea id="r_d" placeholder="خلاصه داستان..." rows="3"></textarea><div style="display:flex; gap:5px"><input id="r_e" placeholder="تعداد قسمت"><input id="r_du" placeholder="مدت زمان"></div><div style="display:flex; gap:5px"><input id="r_y" placeholder="سال ساخت"><input id="r_p" placeholder="پلتفرم"></div><button class="admin-btn" onclick="addDB('recommendations')">ثبت در اسلایدر</button><hr style="border-color:#444; margin:15px 0">`; db.recommendations.forEach((i, idx) => c.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem"><span>${i.title}</span><i class="fas fa-trash text-danger" style="cursor:pointer" onclick="delDB('recommendations', ${idx})"></i></div>`); } 
+        else if (tab === 'rec') { c.innerHTML = `<h4>افزودن پیشنهاد روزانه (بنر سینمایی)</h4><input id="r_img" placeholder="لینک عکس با کیفیت (افقی/پوستر)"><input id="r_t" placeholder="نام انیمه"><textarea id="r_d" placeholder="خلاصه داستان..." rows="3"></textarea><div style="display:flex; gap:5px"><input id="r_e" placeholder="تعداد قسمت"><input id="r_du" placeholder="مدت زمان"></div><div style="display:flex; gap:5px"><input id="r_y" placeholder="سال ساخت"><input id="r_p" placeholder="پلتفرم"></div><button class="admin-btn" onclick="addDB('recommendations')">ثبت در اسلایدر</button><hr style="border-color:#444; margin:15px 0">`; window.db.recommendations.forEach((i, idx) => c.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem"><span>${i.title}</span><i class="fas fa-trash text-danger" style="cursor:pointer" onclick="delDB('recommendations', ${idx})"></i></div>`); } 
         else if (tab === 'team') {
             c.innerHTML = `<div style="display:flex; gap:10px; margin-bottom:15px;"><input id="tm_n" class="admin-form" style="margin:0;" placeholder="اسم مترجم جدید"><button class="admin-btn" style="width:auto; margin:0;" onclick="addTranslator()">ثبت</button></div><div style="max-height:60vh; overflow-y:auto; padding-right:5px;">`;
-            db.team.forEach((t, idx) => { c.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:10px; border-radius:10px; margin-bottom:10px; border:1px solid #444;"><div style="display:flex; align-items:center; gap:10px;"><img src="${t.avatar}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;"><div><b>${t.name}</b><br><span style="font-size:0.75rem; opacity:0.7">${t.projects.length} پروژه</span></div></div><div style="display:flex; flex-direction:column; gap:5px;"><button onclick="manageTranslatorAdmin(${t.id})" class="btn btn-info" style="padding:5px 10px; font-size:0.75rem; border-radius:6px; border:none; color:white; cursor:pointer;"><i class="fas fa-cog"></i> مدیریت</button><button onclick="delDB('team', ${idx})" class="btn btn-danger" style="padding:5px 10px; font-size:0.75rem; border-radius:6px; border:none; color:white; cursor:pointer;"><i class="fas fa-trash"></i> حذف</button></div></div>`; });
+            window.db.team.forEach((t, idx) => { c.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:10px; border-radius:10px; margin-bottom:10px; border:1px solid #444;"><div style="display:flex; align-items:center; gap:10px;"><img src="${t.avatar}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;"><div><b>${t.name}</b><br><span style="font-size:0.75rem; opacity:0.7">${t.projects.length} پروژه</span></div></div><div style="display:flex; flex-direction:column; gap:5px;"><button onclick="manageTranslatorAdmin(${t.id})" class="btn btn-info" style="padding:5px 10px; font-size:0.75rem; border-radius:6px; border:none; color:white; cursor:pointer;"><i class="fas fa-cog"></i> مدیریت</button><button onclick="delDB('team', ${idx})" class="btn btn-danger" style="padding:5px 10px; font-size:0.75rem; border-radius:6px; border:none; color:white; cursor:pointer;"><i class="fas fa-trash"></i> حذف</button></div></div>`; });
             c.innerHTML += `</div>`;
         }
     }
 
-    window.saveGeneralSettings = function() { db.settings.bgUrl = document.getElementById('gen_bg').value; saveDB(); Toast.fire({icon:'success', title:'پس‌زمینه اعمال شد'}); }
-    window.addTranslator = function() { const n = document.getElementById('tm_n').value; if(!n) return Toast.fire({icon:'error', title:'نام مترجم الزامیست'}); db.team.unshift({ id: Date.now(), name: n, avatar: `https://ui-avatars.com/api/?name=${n}&background=random&color=fff`, projects: [] }); saveDB(); window.admTab('team'); }
-
-    window.changeAdminSeason = function(tId, pId, sId) { const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); p.adminActiveS = parseInt(sId); saveDB(); manageTranslatorAdmin(tId, true); }
+    window.saveGeneralSettings = function() { window.db.settings.bgUrl = document.getElementById('gen_bg').value; saveDB(); Toast.fire({icon:'success', title:'پس‌زمینه اعمال شد'}); }
+    window.addTranslator = function() { const n = document.getElementById('tm_n').value; if(!n) return Toast.fire({icon:'error', title:'نام مترجم الزامیست'}); window.db.team.unshift({ id: Date.now(), name: n, avatar: `https://ui-avatars.com/api/?name=${n}&background=random&color=fff`, projects: [] }); saveDB(); window.admTab('team'); }
+    window.changeAdminSeason = function(tId, pId, sId) { const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); p.adminActiveS = parseInt(sId); saveDB(); manageTranslatorAdmin(tId, true); }
     
-    // SMART SEASON ADDING WITH MODAL PROMPT
     window.addSeason = function(tId, pId) { 
         let sc = document.getElementById('admin-proj-list');
         if(sc) window.lastAdminScroll = sc.scrollTop;
-        
         Swal.fire({
             title: '<i class="fas fa-plus-circle text-primary"></i> افزودن آیتم جدید',
             html: `
@@ -735,47 +835,33 @@
                     <option value="OVA">اووی‌اِی (OVA)</option>
                 </select>
             `,
-            background: 'var(--card)',
-            color: 'var(--text)',
-            showCancelButton: true,
-            confirmButtonText: 'ایجاد',
-            cancelButtonText: 'لغو',
-            confirmButtonColor: 'var(--success)',
-            cancelButtonColor: '#ef4444'
+            background: 'var(--card)', color: 'var(--text)', showCancelButton: true, confirmButtonText: 'ایجاد', cancelButtonText: 'لغو', confirmButtonColor: 'var(--success)', cancelButtonColor: '#ef4444'
         }).then((res) => {
             if(res.isConfirmed) {
                 let type = document.getElementById('swal-s-type').value;
-                const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); 
-                
-                let maxKey = 0;
-                Object.keys(p.seasons).forEach(k => { if(parseInt(k) > maxKey) maxKey = parseInt(k); });
+                const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); 
+                let maxKey = 0; Object.keys(p.seasons).forEach(k => { if(parseInt(k) > maxKey) maxKey = parseInt(k); });
                 const nextS = maxKey + 1; 
-                
-                p.seasons[nextS] = { 
-                    type: type,
-                    epCount: 12, year: '2025', duration: '24 دقیقه', img: 'https://via.placeholder.com/150', status: 'airing', subs: {}, files: {} 
-                }; 
-                p.adminActiveS = nextS; 
-                saveDB(); 
-                Toast.fire({icon:'success', title:`${type} جدید ایجاد شد`}); 
+                p.seasons[nextS] = { type: type, epCount: 12, year: '2025', duration: '24 دقیقه', img: 'https://via.placeholder.com/150', status: 'airing', subs: {}, files: {} }; 
+                p.adminActiveS = nextS; saveDB(); Toast.fire({icon:'success', title:`${type} جدید ایجاد شد`}); 
             }
             manageTranslatorAdmin(tId, true);
         });
     }
 
     window.deleteSeason = function(tId, pId, sId) { 
-        const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); 
+        const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); 
         let sType = p.seasons[sId].type || 'فصل'; let sTitle = sType === 'فصل' ? `فصل ${sId}` : `${sType} ${sId}`;
         if(Object.keys(p.seasons).length <= 1) { return Toast.fire({icon:'error', title:'این تنها آیتم پروژه است! برای حذف باید کل پروژه را حذف کنید.'}); } 
         if(confirm(`آیا از حذف کامل ${sTitle} اطمینان دارید؟`)) { delete p.seasons[sId]; p.adminActiveS = Object.keys(p.seasons)[0]; saveDB(); Toast.fire({icon:'success', title:`${sTitle} با موفقیت حذف شد`}); manageTranslatorAdmin(tId, true); } 
     }
-    window.deleteProject = function(tId, pIdx) { if(confirm('کل پروژه با تمام فصل‌ها حذف شود؟')) { const t = db.team.find(x => x.id === tId); t.projects.splice(pIdx, 1); saveDB(); manageTranslatorAdmin(tId, true); } }
+    window.deleteProject = function(tId, pIdx) { if(confirm('کل پروژه با تمام فصل‌ها حذف شود؟')) { const t = window.db.team.find(x => x.id === tId); t.projects.splice(pIdx, 1); saveDB(); manageTranslatorAdmin(tId, true); } }
 
     window.manageTranslatorAdmin = function(id, keepScroll = false) {
         let scrollable = document.getElementById('admin-proj-list');
         if (scrollable && keepScroll) window.lastAdminScroll = scrollable.scrollTop;
 
-        const t = db.team.find(x => x.id === id); if(!t) return;
+        const t = window.db.team.find(x => x.id === id); if(!t) return;
         let html = `<div style="text-align:right;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px dashed #555; padding-bottom:10px;"><span style="font-weight:bold; color:var(--primary);">پروژه‌های ${t.name}</span><button onclick="openProjectForm(${t.id})" class="btn" style="background:var(--success); color:white; border:none; padding:5px 10px; font-size:0.8rem; border-radius:6px; cursor:pointer;"><i class="fas fa-plus"></i> ایجاد پروژه</button></div><div id="admin-proj-list" style="max-height:50vh; overflow-y:auto; padding-right:5px;">`;
         t.projects.forEach((p, pIdx) => { 
             let actS = p.adminActiveS || 1; let sData = p.seasons[actS]; 
@@ -811,99 +897,93 @@
         html += `</div></div>`; 
         
         Swal.fire({ html: html, background: 'var(--card)', color: 'var(--text)', showConfirmButton: false, showCloseButton: true, width: '480px' });
-        
-        if (keepScroll) {
-            setTimeout(() => {
-                let newSc = document.getElementById('admin-proj-list');
-                if (newSc) newSc.scrollTop = window.lastAdminScroll;
-            }, 50);
-        }
+        if (keepScroll) { setTimeout(() => { let newSc = document.getElementById('admin-proj-list'); if (newSc) newSc.scrollTop = window.lastAdminScroll; }, 50); }
     }
 
     window.addAliasInput = function() { const cont = document.getElementById('alias-container'); const inp = document.createElement('input'); inp.className = 'admin-form alias-input'; inp.placeholder = 'عنوان جستجوی جدید...'; cont.appendChild(inp); }
     window.openProjectForm = function(tId, pId = null, sId = 1) {
-        const t = db.team.find(x => x.id === tId); let p = { name:'', nameEn:'', aliases:[], genres:[], desc:'' }; let sData = { type: 'فصل', img:'', epCount:12, year:'2024', duration:'24 دقیقه', status:'airing' }; let title = "ایجاد پروژه جدید"; if(pId) { p = t.projects.find(x => x.id === pId); sData = p.seasons[sId]; let sType = sData.type || 'فصل'; let sTitle = sType === 'فصل' ? `فصل ${sId}` : `${sType} ${sId}`; title = `ویرایش مشخصات (${sTitle})`; }
+        const t = window.db.team.find(x => x.id === tId); let p = { name:'', nameEn:'', aliases:[], genres:[], desc:'' }; let sData = { type: 'فصل', img:'', epCount:12, year:'2024', duration:'24 دقیقه', status:'airing' }; let title = "ایجاد پروژه جدید"; if(pId) { p = t.projects.find(x => x.id === pId); sData = p.seasons[sId]; let sType = sData.type || 'فصل'; let sTitle = sType === 'فصل' ? `فصل ${sId}` : `${sType} ${sId}`; title = `ویرایش مشخصات (${sTitle})`; }
         let aliasHtml = p.aliases && p.aliases.length > 0 ? p.aliases.map(a => `<input class="admin-form alias-input" value="${a}" placeholder="عنوان جستجو...">`).join('') : `<input class="admin-form alias-input" placeholder="عنوان جستجو...">`;
         let formHtml = `<div class="admin-form" style="text-align:right; max-height:60vh; overflow-y:auto; padding:5px;"><label style="font-size:0.8rem; color:var(--text-muted);">وضعیت پخش</label><select id="frm_status"><option value="airing" ${sData.status==='airing'?'selected':''}>درحال پخش</option><option value="completed" ${sData.status==='completed'?'selected':''}>پایان یافته</option></select><label style="font-size:0.8rem; color:var(--text-muted);">نام فارسی (کلی)</label><input id="frm_name" value="${p.name}"><label style="font-size:0.8rem; color:var(--text-muted);">نام انگلیسی (کلی)</label><input id="frm_nameEn" value="${p.nameEn}" dir="ltr"><div style="background:rgba(245, 158, 11, 0.1); padding:10px; border-radius:8px; margin-bottom:10px; border:1px dashed var(--primary);"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;"><label style="font-size:0.8rem; color:var(--primary); font-weight:bold;"><i class="fas fa-search"></i> عناوین جستجوی مخفی</label><button onclick="addAliasInput()" style="background:var(--primary); color:white; border:none; border-radius:4px; font-size:0.7rem; padding:3px 8px; cursor:pointer;"><i class="fas fa-plus"></i></button></div><div id="alias-container">${aliasHtml}</div></div><label style="font-size:0.8rem; color:var(--text-muted);">ژانرها (با ویرگول جدا کنید)</label><input id="frm_genres" value="${p.genres ? p.genres.join('، ') : ''}" placeholder="اکشن، عاشقانه"><label style="font-size:0.8rem; color:var(--text-muted);">لینک پوستر (این آیتم)</label><input id="frm_img" value="${sData.img}" dir="ltr"><div style="display:flex; gap:10px;"><div style="flex:1"><label style="font-size:0.8rem; color:var(--text-muted);">قسمت‌ها</label><input type="number" id="frm_eps" value="${sData.epCount}"></div><div style="flex:1"><label style="font-size:0.8rem; color:var(--text-muted);">سال</label><input id="frm_year" value="${sData.year}"></div><div style="flex:1"><label style="font-size:0.8rem; color:var(--text-muted);">زمان</label><input id="frm_dur" value="${sData.duration}"></div></div><label style="font-size:0.8rem; color:var(--text-muted);">خلاصه داستان (کلی)</label><textarea id="frm_desc" rows="4">${p.desc}</textarea></div><button onclick="saveProjectForm(${tId}, ${pId ? pId : 'null'}, ${sId})" style="background:var(--success); color:white; border:none; width:100%; margin-top:10px; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-save"></i> ذخیره مشخصات</button><button onclick="manageTranslatorAdmin(${tId}, true)" style="width:100%; margin-top:5px; background:var(--card); color:var(--text); border:1px solid var(--text-muted); border-radius:8px; padding:10px; font-weight:bold; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'; this.style.borderColor='var(--primary)'">بازگشت</button>`;
         Swal.fire({ title: title, html: formHtml, background: 'var(--card)', color: 'var(--text)', showConfirmButton: false, showCloseButton: false, width: '450px' });
     }
     window.saveProjectForm = function(tId, pId, sId) {
-        const t = db.team.find(x => x.id === tId); let n = document.getElementById('frm_name').value; if(!n) return Toast.fire({icon:'error', title:'نام فارسی الزامیست'});
+        const t = window.db.team.find(x => x.id === tId); let n = document.getElementById('frm_name').value; if(!n) return Toast.fire({icon:'error', title:'نام فارسی الزامیست'});
         let aliasInputs = document.querySelectorAll('.alias-input'); let aliasesArr = []; aliasInputs.forEach(i => { if(i.value.trim()) aliasesArr.push(i.value.trim()); });
         let genresArr = document.getElementById('frm_genres').value.split(/,|،/).map(g => g.trim()).filter(g => g);
         if(pId) { let p = t.projects.find(x => x.id === pId); p.name = n; p.nameEn = document.getElementById('frm_nameEn').value; p.aliases = aliasesArr; p.genres = genresArr; p.desc = document.getElementById('frm_desc').value; let sData = p.seasons[sId]; sData.img = document.getElementById('frm_img').value || 'https://via.placeholder.com/150'; sData.epCount = parseInt(document.getElementById('frm_eps').value) || 12; sData.year = document.getElementById('frm_year').value; sData.duration = document.getElementById('frm_dur').value; sData.status = document.getElementById('frm_status').value; } else { let p = { id: Date.now(), name: n, nameEn: document.getElementById('frm_nameEn').value, aliases: aliasesArr, genres: genresArr, desc: document.getElementById('frm_desc').value, adminActiveS: 1, cultivation:[], characters:[], news:[], comments:[], seasons: { 1: { type: 'فصل', epCount: parseInt(document.getElementById('frm_eps').value) || 12, year: document.getElementById('frm_year').value, duration: document.getElementById('frm_dur').value, img: document.getElementById('frm_img').value || 'https://via.placeholder.com/150', status: document.getElementById('frm_status').value, subs: {}, files: {} } } }; t.projects.unshift(p); }
         saveDB(); Toast.fire({icon:'success', title:'ذخیره شد'}); manageTranslatorAdmin(tId, true);
     }
     
-    window.manageAdminSubs = function(tId, pId, sId) { const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let sData = p.seasons[sId]; let sType = sData.type || 'فصل'; let sTitle = sType === 'فصل' ? `فصل ${sId}` : `${sType} ${sId}`; let html = `<div style="max-height:50vh; overflow-y:auto; padding:5px; text-align:right;">`; for(let i = 1; i <= sData.epCount; i++) { html += `<div style="margin-bottom:10px; background:rgba(0,0,0,0.2); padding:10px; border-radius:8px;"><label style="font-size:0.8rem; color:var(--primary); font-weight:bold;">زیرنویس قسمت ${i}</label><input id="asub_${i}" class="admin-form" style="margin:5px 0 0; padding:8px; direction:ltr; width:100%; box-sizing:border-box;" value="${sData.subs[i] || ''}" placeholder="لینک..."></div>`; } html += `</div><button onclick="saveAdminSubs(${tId}, ${pId}, ${sId})" style="background:var(--success); color:white; border:none; width:100%; margin-top:10px; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-save"></i> ذخیره زیرنویس‌ها</button><button onclick="manageTranslatorAdmin(${tId}, true)" style="width:100%; margin-top:5px; background:var(--card); color:var(--text); border:1px solid var(--text-muted); border-radius:8px; padding:10px; font-weight:bold; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'; this.style.borderColor='var(--primary)'">بازگشت</button>`; Swal.fire({ title: `زیرنویس (${sTitle})`, html: html, background: 'var(--card)', color: 'var(--text)', showConfirmButton: false, showCloseButton: false }); }
-    window.saveAdminSubs = function(tId, pId, sId) { const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let sData = p.seasons[sId]; for(let i = 1; i <= sData.epCount; i++) { let val = document.getElementById(`asub_${i}`).value.trim(); if(val) sData.subs[i] = val; else delete sData.subs[i]; } saveDB(); Toast.fire({icon:'success', title:'ذخیره شد'}); manageTranslatorAdmin(tId, true); }
+    window.manageAdminSubs = function(tId, pId, sId) { const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let sData = p.seasons[sId]; let sType = sData.type || 'فصل'; let sTitle = sType === 'فصل' ? `فصل ${sId}` : `${sType} ${sId}`; let html = `<div style="max-height:50vh; overflow-y:auto; padding:5px; text-align:right;">`; for(let i = 1; i <= sData.epCount; i++) { html += `<div style="margin-bottom:10px; background:rgba(0,0,0,0.2); padding:10px; border-radius:8px;"><label style="font-size:0.8rem; color:var(--primary); font-weight:bold;">زیرنویس قسمت ${i}</label><input id="asub_${i}" class="admin-form" style="margin:5px 0 0; padding:8px; direction:ltr; width:100%; box-sizing:border-box;" value="${sData.subs[i] || ''}" placeholder="لینک..."></div>`; } html += `</div><button onclick="saveAdminSubs(${tId}, ${pId}, ${sId})" style="background:var(--success); color:white; border:none; width:100%; margin-top:10px; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-save"></i> ذخیره زیرنویس‌ها</button><button onclick="manageTranslatorAdmin(${tId}, true)" style="width:100%; margin-top:5px; background:var(--card); color:var(--text); border:1px solid var(--text-muted); border-radius:8px; padding:10px; font-weight:bold; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'; this.style.borderColor='var(--primary)'">بازگشت</button>`; Swal.fire({ title: `زیرنویس (${sTitle})`, html: html, background: 'var(--card)', color: 'var(--text)', showConfirmButton: false, showCloseButton: false }); }
+    window.saveAdminSubs = function(tId, pId, sId) { const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let sData = p.seasons[sId]; for(let i = 1; i <= sData.epCount; i++) { let val = document.getElementById(`asub_${i}`).value.trim(); if(val) sData.subs[i] = val; else delete sData.subs[i]; } saveDB(); Toast.fire({icon:'success', title:'ذخیره شد'}); manageTranslatorAdmin(tId, true); }
     
-    window.manageAdminFiles = function(tId, pId, sId) { const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let sData = p.seasons[sId]; let sType = sData.type || 'فصل'; let sTitle = sType === 'فصل' ? `فصل ${sId}` : `${sType} ${sId}`; let html = `<div style="max-height:55vh; overflow-y:auto; padding:5px; text-align:right;">`; for(let i = 1; i <= sData.epCount; i++) { let f = sData.files[i] || {}; html += `<details class="glass-accordion" style="margin-bottom:8px; background:rgba(0,0,0,0.3); border:1px solid #444;"><summary style="padding:10px; font-size:0.9rem; color:var(--info);">🎬 قسمت ${i}</summary><div class="accordion-content admin-form" style="padding:10px; display:flex; flex-direction:column; gap:5px;"><input id="afil_${i}_480" value="${f['480']||''}" placeholder="لینک 480p" style="margin:0; padding:8px; direction:ltr; border:1px solid #10b981; width:100%; box-sizing:border-box;"><input id="afil_${i}_720" value="${f['720']||''}" placeholder="لینک 720p" style="margin:0; padding:8px; direction:ltr; border:1px solid #0ea5e9; width:100%; box-sizing:border-box;"><input id="afil_${i}_1080" value="${f['1080']||''}" placeholder="لینک 1080p" style="margin:0; padding:8px; direction:ltr; border:1px solid #8b5cf6; width:100%; box-sizing:border-box;"><input id="afil_${i}_1080x265" value="${f['1080x265']||''}" placeholder="لینک 1080p 💎 (x265)" style="margin:0; padding:8px; direction:ltr; border:1px solid #db2777; width:100%; box-sizing:border-box;"><input id="afil_${i}_4k" value="${f['4k']||''}" placeholder="لینک 4K UHD" style="margin:0; padding:8px; direction:ltr; border:1px solid #f59e0b; width:100%; box-sizing:border-box;"></div></details>`; } html += `</div><button onclick="saveAdminFiles(${tId}, ${pId}, ${sId})" style="background:var(--success); color:white; border:none; width:100%; margin-top:10px; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-save"></i> ذخیره فایل‌ها</button><button onclick="manageTranslatorAdmin(${tId}, true)" style="width:100%; margin-top:5px; background:var(--card); color:var(--text); border:1px solid var(--text-muted); border-radius:8px; padding:10px; font-weight:bold; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'; this.style.borderColor='var(--primary)'">بازگشت</button>`; Swal.fire({ title: `قسمت‌ها (${sTitle})`, html: html, background: 'var(--card)', color: 'var(--text)', showConfirmButton: false, showCloseButton: false }); }
-    window.saveAdminFiles = function(tId, pId, sId) { const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let sData = p.seasons[sId]; for(let i = 1; i <= sData.epCount; i++) { let v480 = document.getElementById(`afil_${i}_480`).value.trim(); let v720 = document.getElementById(`afil_${i}_720`).value.trim(); let v1080 = document.getElementById(`afil_${i}_1080`).value.trim(); let v1080x265 = document.getElementById(`afil_${i}_1080x265`).value.trim(); let v4k = document.getElementById(`afil_${i}_4k`).value.trim(); if(v480 || v720 || v1080 || v1080x265 || v4k) { sData.files[i] = {}; if(v480) sData.files[i]['480'] = v480; if(v720) sData.files[i]['720'] = v720; if(v1080) sData.files[i]['1080'] = v1080; if(v1080x265) sData.files[i]['1080x265'] = v1080x265; if(v4k) sData.files[i]['4k'] = v4k; } else { delete sData.files[i]; } } saveDB(); Toast.fire({icon:'success', title:'فایل‌ها ذخیره شدند'}); manageTranslatorAdmin(tId, true); }
+    window.manageAdminFiles = function(tId, pId, sId) { const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let sData = p.seasons[sId]; let sType = sData.type || 'فصل'; let sTitle = sType === 'فصل' ? `فصل ${sId}` : `${sType} ${sId}`; let html = `<div style="max-height:55vh; overflow-y:auto; padding:5px; text-align:right;">`; for(let i = 1; i <= sData.epCount; i++) { let f = sData.files[i] || {}; html += `<details class="glass-accordion" style="margin-bottom:8px; background:rgba(0,0,0,0.3); border:1px solid #444;"><summary style="padding:10px; font-size:0.9rem; color:var(--info);">🎬 قسمت ${i}</summary><div class="accordion-content admin-form" style="padding:10px; display:flex; flex-direction:column; gap:5px;"><input id="afil_${i}_480" value="${f['480']||''}" placeholder="لینک 480p" style="margin:0; padding:8px; direction:ltr; border:1px solid #10b981; width:100%; box-sizing:border-box;"><input id="afil_${i}_720" value="${f['720']||''}" placeholder="لینک 720p" style="margin:0; padding:8px; direction:ltr; border:1px solid #0ea5e9; width:100%; box-sizing:border-box;"><input id="afil_${i}_1080" value="${f['1080']||''}" placeholder="لینک 1080p" style="margin:0; padding:8px; direction:ltr; border:1px solid #8b5cf6; width:100%; box-sizing:border-box;"><input id="afil_${i}_1080x265" value="${f['1080x265']||''}" placeholder="لینک 1080p 💎 (x265)" style="margin:0; padding:8px; direction:ltr; border:1px solid #db2777; width:100%; box-sizing:border-box;"><input id="afil_${i}_4k" value="${f['4k']||''}" placeholder="لینک 4K UHD" style="margin:0; padding:8px; direction:ltr; border:1px solid #f59e0b; width:100%; box-sizing:border-box;"></div></details>`; } html += `</div><button onclick="saveAdminFiles(${tId}, ${pId}, ${sId})" style="background:var(--success); color:white; border:none; width:100%; margin-top:10px; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-save"></i> ذخیره فایل‌ها</button><button onclick="manageTranslatorAdmin(${tId}, true)" style="width:100%; margin-top:5px; background:var(--card); color:var(--text); border:1px solid var(--text-muted); border-radius:8px; padding:10px; font-weight:bold; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'; this.style.borderColor='var(--primary)'">بازگشت</button>`; Swal.fire({ title: `قسمت‌ها (${sTitle})`, html: html, background: 'var(--card)', color: 'var(--text)', showConfirmButton: false, showCloseButton: false }); }
+    window.saveAdminFiles = function(tId, pId, sId) { const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let sData = p.seasons[sId]; for(let i = 1; i <= sData.epCount; i++) { let v480 = document.getElementById(`afil_${i}_480`).value.trim(); let v720 = document.getElementById(`afil_${i}_720`).value.trim(); let v1080 = document.getElementById(`afil_${i}_1080`).value.trim(); let v1080x265 = document.getElementById(`afil_${i}_1080x265`).value.trim(); let v4k = document.getElementById(`afil_${i}_4k`).value.trim(); if(v480 || v720 || v1080 || v1080x265 || v4k) { sData.files[i] = {}; if(v480) sData.files[i]['480'] = v480; if(v720) sData.files[i]['720'] = v720; if(v1080) sData.files[i]['1080'] = v1080; if(v1080x265) sData.files[i]['1080x265'] = v1080x265; if(v4k) sData.files[i]['4k'] = v4k; } else { delete sData.files[i]; } } saveDB(); Toast.fire({icon:'success', title:'فایل‌ها ذخیره شدند'}); manageTranslatorAdmin(tId, true); }
 
     window.manageAdminCultivation = function(tId, pId) {
-        const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let html = `<div style="max-height:40vh; overflow-y:auto; padding-right:5px; margin-bottom:15px;">`;
+        const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let html = `<div style="max-height:40vh; overflow-y:auto; padding-right:5px; margin-bottom:15px;">`;
         if(p.cultivation && p.cultivation.length > 0) { p.cultivation.forEach((c, idx) => { html += `<div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); border:1px solid #444; padding:8px; border-radius:8px; margin-bottom:5px; text-align:right;"><div><div style="font-weight:bold; color:var(--primary); font-size:0.85rem;">${c.name}</div><div style="font-size:0.75rem; color:var(--text-muted);">${c.desc}</div></div><button onclick="delCultivation(${tId}, ${pId}, ${idx})" style="background:#ef4444; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;"><i class="fas fa-trash"></i></button></div>`; }); } else { html += `<div style="text-align:center; opacity:0.5; font-size:0.85rem;">هیچ قلمرویی ثبت نشده است.</div>`; }
         html += `</div><div class="admin-form" style="text-align:right; border-top:1px dashed #555; padding-top:10px;"><input id="ac_n" placeholder="نام سطح / قلمرو (مثلا: قلمرو روح)"><div style="display:flex; gap:5px;"><input id="ac_l" type="number" placeholder="تعداد لایه / سطح (مثلا 9)"><select id="ac_t" style="margin:0;"><option value="normal">حالت عادی / فانی</option><option value="god">قلمرو خدایان (بالاترین)</option></select></div><textarea id="ac_d" placeholder="توضیحات (اختیاری)..." rows="2" style="margin-top:10px;"></textarea></div><button onclick="addCultivation(${tId}, ${pId})" style="background:var(--primary); color:white; border:none; width:100%; margin-top:5px; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-plus"></i> افزودن قلمرو جدید</button><button onclick="manageTranslatorAdmin(${tId})" style="width:100%; margin-top:5px; background:var(--card); color:var(--text); border:1px solid var(--text-muted); border-radius:8px; padding:10px; font-weight:bold; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'; this.style.borderColor='var(--primary)'">بازگشت</button>`;
         Swal.fire({ title: `سیستم تهذیب`, html: html, background: 'var(--card)', color: 'var(--text)', showConfirmButton: false, showCloseButton: false });
     }
-    window.addCultivation = function(tId, pId) { const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let n = document.getElementById('ac_n').value.trim(); let d = document.getElementById('ac_d').value.trim(); let l = document.getElementById('ac_l').value; let typ = document.getElementById('ac_t').value; if(!n) return Toast.fire({icon:'error', title:'نام قلمرو الزامیست'}); p.cultivation.push({ name: n, desc: d, layers: l, type: typ }); saveDB(); manageAdminCultivation(tId, pId); }
-    window.delCultivation = function(tId, pId, idx) { const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); p.cultivation.splice(idx, 1); saveDB(); manageAdminCultivation(tId, pId); }
+    window.addCultivation = function(tId, pId) { const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let n = document.getElementById('ac_n').value.trim(); let d = document.getElementById('ac_d').value.trim(); let l = document.getElementById('ac_l').value; let typ = document.getElementById('ac_t').value; if(!n) return Toast.fire({icon:'error', title:'نام قلمرو الزامیست'}); p.cultivation.push({ name: n, desc: d, layers: l, type: typ }); saveDB(); manageAdminCultivation(tId, pId); }
+    window.delCultivation = function(tId, pId, idx) { const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); p.cultivation.splice(idx, 1); saveDB(); manageAdminCultivation(tId, pId); }
 
     window.manageAdminChars = function(tId, pId) {
-        const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let html = `<div style="max-height:40vh; overflow-y:auto; padding-right:5px; margin-bottom:15px;">`;
+        const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let html = `<div style="max-height:40vh; overflow-y:auto; padding-right:5px; margin-bottom:15px;">`;
         if(p.characters && p.characters.length > 0) { p.characters.forEach((c, idx) => { html += `<div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); border:1px solid #444; padding:8px; border-radius:8px; margin-bottom:5px; text-align:right;"><div style="display:flex; align-items:center; gap:10px;"><img src="${c.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover;"><div><div style="font-weight:bold; font-size:0.85rem;">${c.name}</div><div style="font-size:0.7rem; color:${c.role==='main'?'#f59e0b':'var(--text-muted)'};">${c.role==='main'?'شخصیت اصلی':'شخصیت فرعی'}</div></div></div><button onclick="delChar(${tId}, ${pId}, ${idx})" style="background:#ef4444; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;"><i class="fas fa-trash"></i></button></div>`; }); } else { html += `<div style="text-align:center; opacity:0.5; font-size:0.85rem;">کاراکتری ثبت نشده است.</div>`; }
         html += `</div><div class="admin-form" style="text-align:right; border-top:1px dashed #555; padding-top:10px;"><input id="ach_n" placeholder="نام کاراکتر"><input id="ach_img" placeholder="لینک عکس پروفایل" dir="ltr"><select id="ach_role" style="margin-bottom:5px;"><option value="main">شخصیت اصلی</option><option value="sub">شخصیت فرعی</option></select></div><button onclick="addChar(${tId}, ${pId})" style="background:var(--primary); color:white; border:none; width:100%; margin-top:5px; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-plus"></i> افزودن کاراکتر</button><button onclick="manageTranslatorAdmin(${tId})" style="width:100%; margin-top:5px; background:var(--card); color:var(--text); border:1px solid var(--text-muted); border-radius:8px; padding:10px; font-weight:bold; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'; this.style.borderColor='var(--primary)'">بازگشت</button>`;
         Swal.fire({ title: `کاراکترها`, html: html, background: 'var(--card)', color: 'var(--text)', showConfirmButton: false, showCloseButton: false });
     }
-    window.addChar = function(tId, pId) { const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let n = document.getElementById('ach_n').value.trim(); let img = document.getElementById('ach_img').value.trim() || 'https://via.placeholder.com/150'; let role = document.getElementById('ach_role').value; if(!n) return Toast.fire({icon:'error', title:'نام کاراکتر الزامیست'}); p.characters.push({ name: n, img: img, role: role }); saveDB(); manageAdminChars(tId, pId); }
-    window.delChar = function(tId, pId, idx) { const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); p.characters.splice(idx, 1); saveDB(); manageAdminChars(tId, pId); }
+    window.addChar = function(tId, pId) { const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let n = document.getElementById('ach_n').value.trim(); let img = document.getElementById('ach_img').value.trim() || 'https://via.placeholder.com/150'; let role = document.getElementById('ach_role').value; if(!n) return Toast.fire({icon:'error', title:'نام کاراکتر الزامیست'}); p.characters.push({ name: n, img: img, role: role }); saveDB(); manageAdminChars(tId, pId); }
+    window.delChar = function(tId, pId, idx) { const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); p.characters.splice(idx, 1); saveDB(); manageAdminChars(tId, pId); }
 
     window.manageAdminNews = function(tId, pId) {
-        const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let html = `<div style="max-height:40vh; overflow-y:auto; padding-right:5px; margin-bottom:15px;">`;
+        const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let html = `<div style="max-height:40vh; overflow-y:auto; padding-right:5px; margin-bottom:15px;">`;
         if(p.news && p.news.length > 0) { p.news.forEach((n, idx) => { html += `<div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); border:1px solid #444; padding:8px; border-radius:8px; margin-bottom:5px; text-align:right;"><div><div style="font-weight:bold; color:var(--primary); font-size:0.85rem;">${n.title}</div><div style="font-size:0.7rem; color:#888;">${n.date}</div></div><button onclick="delNews(${tId}, ${pId}, ${idx})" style="background:#ef4444; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;"><i class="fas fa-trash"></i></button></div>`; }); } else { html += `<div style="text-align:center; opacity:0.5; font-size:0.85rem;">خبری ثبت نشده است.</div>`; }
         html += `</div><div class="admin-form" style="text-align:right; border-top:1px dashed #555; padding-top:10px;"><input id="an_t" placeholder="عنوان خبر / مقاله"><input id="an_m" placeholder="لینک عکس یا ویدیو (mp4.)" dir="ltr"><textarea id="an_c" placeholder="متن کامل خبر..." rows="3"></textarea></div><button onclick="addNews(${tId}, ${pId})" style="background:var(--primary); color:white; border:none; width:100%; margin-top:5px; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer;"><i class="fas fa-plus"></i> انتشار خبر</button><button onclick="manageTranslatorAdmin(${tId})" style="width:100%; margin-top:5px; background:var(--card); color:var(--text); border:1px solid var(--text-muted); border-radius:8px; padding:10px; font-weight:bold; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'; this.style.borderColor='var(--primary)'">بازگشت</button>`;
         Swal.fire({ title: `اخبار و مقالات`, html: html, background: 'var(--card)', color: 'var(--text)', showConfirmButton: false, showCloseButton: false });
     }
-    window.addNews = function(tId, pId) { const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let t = document.getElementById('an_t').value.trim(); let m = document.getElementById('an_m').value.trim() || 'https://via.placeholder.com/400x200'; let c = document.getElementById('an_c').value.trim(); if(!t) return Toast.fire({icon:'error', title:'عنوان خبر الزامیست'}); const d = new Intl.DateTimeFormat('fa-IR', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); p.news.unshift({ title: t, media: m, content: c, date: d }); saveDB(); manageAdminNews(tId, pId); }
-    window.delNews = function(tId, pId, idx) { const p = db.team.find(x => x.id === tId).projects.find(x => x.id === pId); p.news.splice(idx, 1); saveDB(); manageAdminNews(tId, pId); }
+    window.addNews = function(tId, pId) { const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); let t = document.getElementById('an_t').value.trim(); let m = document.getElementById('an_m').value.trim() || 'https://via.placeholder.com/400x200'; let c = document.getElementById('an_c').value.trim(); if(!t) return Toast.fire({icon:'error', title:'عنوان خبر الزامیست'}); const d = new Intl.DateTimeFormat('fa-IR', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); p.news.unshift({ title: t, media: m, content: c, date: d }); saveDB(); manageAdminNews(tId, pId); }
+    window.delNews = function(tId, pId, idx) { const p = window.db.team.find(x => x.id === tId).projects.find(x => x.id === pId); p.news.splice(idx, 1); saveDB(); manageAdminNews(tId, pId); }
 
     window.editDBSchedule = function(idx) {
         editingSchedIdx = idx;
-        let i = db.schedule[idx];
+        let i = window.db.schedule[idx];
         document.getElementById('s_img').value = i.img || ''; document.getElementById('s_t').value = i.title || ''; document.getElementById('s_s').value = i.season || 1; document.getElementById('s_e').value = i.ep || 1; document.getElementById('s_d').value = i.day || 6; document.getElementById('s_ti').value = i.time || '';
         document.getElementById('btn_add_sched').innerText = 'ذخیره ویرایش'; document.getElementById('btn_add_sched').style.background = '#8b5cf6';
     }
 
     window.saveDBSchedule = function() {
         let data = { 
-            id: (editingSchedIdx > -1) ? db.schedule[editingSchedIdx].id : Date.now(), 
-            img: document.getElementById('s_img').value, title: document.getElementById('s_t').value, season: document.getElementById('s_s').value || 1, ep: document.getElementById('s_e').value || 1, day: document.getElementById('s_d').value, time: document.getElementById('s_ti').value, isPaused: (editingSchedIdx > -1) ? db.schedule[editingSchedIdx].isPaused : false, lastAirMs: (editingSchedIdx > -1) ? db.schedule[editingSchedIdx].lastAirMs : null
+            id: (editingSchedIdx > -1) ? window.db.schedule[editingSchedIdx].id : Date.now(), 
+            img: document.getElementById('s_img').value, title: document.getElementById('s_t').value, season: document.getElementById('s_s').value || 1, ep: document.getElementById('s_e').value || 1, day: document.getElementById('s_d').value, time: document.getElementById('s_ti').value, isPaused: (editingSchedIdx > -1) ? window.db.schedule[editingSchedIdx].isPaused : false, lastAirMs: (editingSchedIdx > -1) ? window.db.schedule[editingSchedIdx].lastAirMs : null
         };
-        if(editingSchedIdx > -1) { db.schedule[editingSchedIdx] = data; editingSchedIdx = -1; document.getElementById('btn_add_sched').innerText = 'ثبت پخش جدید'; document.getElementById('btn_add_sched').style.background = 'var(--primary)'; } else { db.schedule.push(data); }
+        if(editingSchedIdx > -1) { window.db.schedule[editingSchedIdx] = data; editingSchedIdx = -1; document.getElementById('btn_add_sched').innerText = 'ثبت پخش جدید'; document.getElementById('btn_add_sched').style.background = 'var(--primary)'; } else { window.db.schedule.push(data); }
         saveDB(); window.admTab('sched');
     }
 
     window.addSmartTranslation = function() {
         let val = document.getElementById('tr_proj').value; if(!val) return Toast.fire({icon:'error', title:'لطفا یک پروژه انتخاب کنید'});
-        let [tId, pId] = val.split('|'); let p = db.team.find(t=>t.id==tId).projects.find(x=>x.id==pId); let sData = p.seasons[1] || Object.values(p.seasons)[0];
-        db.translation.push({ id: Date.now(), img: sData.img, title: p.name, ep: document.getElementById('tr_ep').value || 1, translator: document.getElementById('tr_n').value || 'نامشخص', tId: parseInt(tId), pId: parseInt(pId) });
+        let [tId, pId] = val.split('|'); let p = window.db.team.find(t=>t.id==tId).projects.find(x=>x.id==pId); let sData = p.seasons[1] || Object.values(p.seasons)[0];
+        window.db.translation.push({ id: Date.now(), img: sData.img, title: p.name, ep: document.getElementById('tr_ep').value || 1, translator: document.getElementById('tr_n').value || 'نامشخص', tId: parseInt(tId), pId: parseInt(pId) });
         saveDB(); window.admTab('trans');
     }
 
     window.markTransDone = function(idx) {
         Swal.fire({title:'آیا مطمئن هستید؟', text:'قسمت انتخاب شده به صورت خودکار در صفحه انیمه به عنوان (ترجمه شده) ثبت شده و از این لیست حذف می‌شود.', icon:'warning', showCancelButton:true, confirmButtonText:'بله، انجام شد', cancelButtonText:'انصراف', background:'var(--card)', color:'var(--text)'}).then(res => {
             if(res.isConfirmed) { 
-                let item = db.translation[idx];
-                if(item.tId && item.pId) { let p = db.team.find(t=>t.id==item.tId).projects.find(x=>x.id==item.pId); if(p) { let actS = p.adminActiveS || 1; if(!p.seasons[actS].subs) p.seasons[actS].subs = {}; p.seasons[actS].subs[item.ep] = "#translated"; } }
-                db.translation.splice(idx, 1); saveDB(); window.admTab('trans'); Toast.fire({icon:'success', title:'اتوماتیک ثبت شد'}); 
+                let item = window.db.translation[idx];
+                if(item.tId && item.pId) { let p = window.db.team.find(t=>t.id==item.tId).projects.find(x=>x.id==item.pId); if(p) { let actS = p.adminActiveS || 1; if(!p.seasons[actS].subs) p.seasons[actS].subs = {}; p.seasons[actS].subs[item.ep] = "#translated"; } }
+                window.db.translation.splice(idx, 1); saveDB(); window.admTab('trans'); Toast.fire({icon:'success', title:'اتوماتیک ثبت شد'}); 
             }
         });
     }
 
-    window.addDB = function(table) { if(table === 'recommendations') db.recommendations.push({ id: Date.now(), img: document.getElementById('r_img').value, title: document.getElementById('r_t').value, desc: document.getElementById('r_d').value, eps: document.getElementById('r_e').value, duration: document.getElementById('r_du').value, year: document.getElementById('r_y').value, platform: document.getElementById('r_p').value }); saveDB(); window.admTab(table); }
-    window.delDB = function(table, idx) { db[table].splice(idx, 1); saveDB(); window.admTab(table); }
-    window.exportDB = function() { document.getElementById('db-backup').innerText = `window.PRELOADED_DB = ${JSON.stringify(db)};`; closeAllDrawers(); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n" + document.documentElement.outerHTML], {type:'text/html;charset=utf-8'})); a.download='AnimeBlack_Master.html'; a.click(); Toast.fire({icon:'success', title:'دیتابیس دانلود شد'}); }
+    window.addDB = function(table) { if(table === 'recommendations') window.db.recommendations.push({ id: Date.now(), img: document.getElementById('r_img').value, title: document.getElementById('r_t').value, desc: document.getElementById('r_d').value, eps: document.getElementById('r_e').value, duration: document.getElementById('r_du').value, year: document.getElementById('r_y').value, platform: document.getElementById('r_p').value }); saveDB(); window.admTab(table); }
+    window.delDB = function(table, idx) { window.db[table].splice(idx, 1); saveDB(); window.admTab(table); }
+    window.exportDB = function() { document.getElementById('db-backup').innerText = `window.PRELOADED_DB = ${JSON.stringify(window.db)};`; closeAllDrawers(); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["<!DOCTYPE html>\n" + document.documentElement.outerHTML], {type:'text/html;charset=utf-8'})); a.download='AnimeBlack_Master.html'; a.click(); Toast.fire({icon:'success', title:'دیتابیس دانلود شد'}); }
 
     setInterval(() => {
         try { 
